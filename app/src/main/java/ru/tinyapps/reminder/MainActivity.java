@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem splashItem = menu.findItem(R.id.action_splash);
-        splashItem.setCheckable(preferenceHelper.getBoolean(PreferenceHelper.SPLASH_IS_INVISIBLE));
+        splashItem.setChecked(preferenceHelper.getBoolean(PreferenceHelper.SPLASH_IS_INVISIBLE));
         return true;
     }
 
