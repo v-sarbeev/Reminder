@@ -12,7 +12,6 @@
         android:gravity="right"
         android:textSize="14sp"
         android:textColor="@color/secondary_text"
-        android:text="Date"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"/>
 
@@ -25,7 +24,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/tvTaskDate"
-        android:layout_alignParentLeft="true"
-        android:text="Title"/>
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>
