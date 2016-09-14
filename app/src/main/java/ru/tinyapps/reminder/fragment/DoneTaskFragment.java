@@ -1,6 +1,7 @@
 package ru.tinyapps.reminder.fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,20 +11,35 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.tinyapps.reminder.R;
+import ru.tinyapps.reminder.adapter.DoneTaskAdapter;
+import ru.tinyapps.reminder.model.ModelTask;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DoneTaskFragment extends Fragment {
-
-    private RecyclerView rvDoneTasks;
-    private RecyclerView.LayoutManager layoutManager;
+public class DoneTaskFragment extends TaskFragment {
 
     public DoneTaskFragment() {
         // Required empty public constructor
     }
 
+    OnTaskRestoreLIstener onTaskRestoreLIstener;
+
+    public interface OnTaskRestoreLIstener {
+        void onTaskRestore(ModelTask task);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            onTaskRestoreLIstener = (OnTaskRestoreLIstener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+            + " must implement OnTaskRestoreListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,13 +47,20 @@ public class DoneTaskFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_done_task, container, false);
 
-        rvDoneTasks = (RecyclerView) rootView.findViewById(R.id.rvDoneTasks);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.rvDoneTasks);
 
         layoutManager = new LinearLayoutManager(getActivity());
-        rvDoneTasks.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new DoneTaskAdapter(this);
+        recyclerView.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return rootView;
     }
 
+    @Override
+    public void moveTask(ModelTask task) {
+        onTaskRestoreLIstener.onTaskRestore(task);
+    }
 }

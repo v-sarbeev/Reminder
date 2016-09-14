@@ -20,17 +20,20 @@ import ru.tinyapps.reminder.dialog.AddingTaskDialogFragment;
 import ru.tinyapps.reminder.fragment.CurrentTaskFragment;
 import ru.tinyapps.reminder.fragment.DoneTaskFragment;
 import ru.tinyapps.reminder.fragment.SplashFragment;
+import ru.tinyapps.reminder.fragment.TaskFragment;
 import ru.tinyapps.reminder.model.ModelTask;
 
-public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener{
+public class MainActivity extends AppCompatActivity
+        implements AddingTaskDialogFragment.AddingTaskListener,
+        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreLIstener{
 
     public static final String TAG = "myTag";
 
     FragmentManager fragmentManager;
     PreferenceHelper preferenceHelper;
 
-    CurrentTaskFragment currentTaskFragment;
-    DoneTaskFragment doneTaskFragment;
+    TaskFragment currentTaskFragment;
+    TaskFragment doneTaskFragment;
 
     TabAdapter tabAdapter;
 
@@ -135,5 +138,15 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     @Override
     public void onTaskAddingCancel() {
         Toast.makeText(this, "Task adding canceled.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTaskDone(ModelTask task) {
+        doneTaskFragment.addTask(task);
+    }
+
+    @Override
+    public void onTaskRestore(ModelTask task) {
+        currentTaskFragment.addTask(task);
     }
 }
