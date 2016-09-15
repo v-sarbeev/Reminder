@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import ru.tinyapps.reminder.adapter.TabAdapter;
+import ru.tinyapps.reminder.database.DBHelper;
 import ru.tinyapps.reminder.dialog.AddingTaskDialogFragment;
 import ru.tinyapps.reminder.fragment.CurrentTaskFragment;
 import ru.tinyapps.reminder.fragment.DoneTaskFragment;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity
     TaskFragment currentTaskFragment;
     TaskFragment doneTaskFragment;
 
+    public DBHelper dbHelper;
+
     TabAdapter tabAdapter;
 
     @Override
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity
 
         PreferenceHelper.getInstance().init(getApplicationContext());
         preferenceHelper = PreferenceHelper.getInstance();
+
+        dbHelper = new DBHelper(getApplicationContext());
 
         fragmentManager = getFragmentManager();
 
@@ -132,7 +137,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTaskAdded(ModelTask newTask) {
-        currentTaskFragment.addTask(newTask);
+        currentTaskFragment.addTask(newTask, true);
     }
 
     @Override
@@ -142,11 +147,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTaskDone(ModelTask task) {
-        doneTaskFragment.addTask(task);
+        doneTaskFragment.addTask(task, false);
     }
 
     @Override
     public void onTaskRestore(ModelTask task) {
-        currentTaskFragment.addTask(task);
+        currentTaskFragment.addTask(task, false);
     }
 }
